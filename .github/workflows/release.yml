@@ -1,0 +1,19 @@
+name: Publish offline file
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cp index.html compass-error-book.html
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: offline-${{ github.run_number }}
+          name: Compass Error Book (offline file) ${{ github.run_number }}
+          make_latest: true
+          files: compass-error-book.html
